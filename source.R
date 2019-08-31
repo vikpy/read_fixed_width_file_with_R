@@ -1,3 +1,4 @@
+library(gdata)
 path_for_data <-  "./data.txt"
 setwd("C:/Users/Vikraant Pai/workspace/read_fixed_width_file_with_R")
 
@@ -21,12 +22,36 @@ summary(df_weather_data_1730)
 df_weather_data_830_means <-  aggregate( df_weather_data_830[, 5:23] , by = list(df_weather_data_830$MN), FUN=function(x) return(mean(x, na.rm = T)) )
 df_weather_data_830_means
 for(column_name in col_names_list){
-  for(month_number in c(1:12) ){
-    print( df_weather_data_830[which( is.na(df_weather_data_830[column_name]) & df_weather_data_830$MN == month_number) ,][column_name] ) <- df_weather_data_830_means[column_name][month_number, ]
+  for( month_number in c(1:12) ){
+  if( nrow(
+  df_weather_data_830[ which( is.na(df_weather_data_830[column_name]) & df_weather_data_830$MN == month_number),][column_name]
+    )
+    )
+    {
+  
+    df_weather_data_830[ which( is.na(df_weather_data_830[column_name]) & df_weather_data_830$MN == month_number) ,][column_name]  <- df_weather_data_830_means[column_name][month_number, ]
+    }   
   }
 }
-
 df_weather_data_830
+
+#Finding means for 1730 data set and replacing them with means
+df_weather_data_1730_means <-  aggregate( df_weather_data_1730[, 5:23] , by = list(df_weather_data_1730$MN), FUN=function(x) return(mean(x, na.rm = T)) )
+df_weather_data_1730_means
+for(column_name in col_names_list){
+  for( month_number in c(1:12) ){
+    if( nrow(
+      df_weather_data_1730[ which( is.na(df_weather_data_1730[column_name]) & df_weather_data_1730$MN == month_number),][column_name]
+    )
+    )
+    {
+      
+      df_weather_data_1730[ which( is.na(df_weather_data_1730[column_name]) & df_weather_data_1730$MN == month_number) ,][column_name]  <- df_weather_data_1730_means[column_name][month_number, ]
+    }   
+  }
+}
+df_weather_data_1730
+
 
 
 #Checking if the count of line items are same in all the three data sets
@@ -41,5 +66,5 @@ if( length(df_weather_data_1730[,1]) + length(df_weather_data_830[,1]) ==  lengt
 }
 
 #Writing the data in csv
-write.csv(df_weather_data_1730, file = "./weather_data_1730.csv")
-write.csv(df_weather_data_830, file = "./weather_data_830.csv")
+write.fwf(df_weather_data_1730, file = "./weather_data_1730.txt")
+write.fwf(df_weather_data_830, file = "./weather_data_830.txt")

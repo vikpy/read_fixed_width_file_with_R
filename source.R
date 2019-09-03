@@ -1,6 +1,6 @@
 library(gdata)
 path_for_data <-  "./data.txt"
-setwd("C:/Users/Vikraant Pai/workspace/read_fixed_width_file_with_R")
+setwd("./read_fixed_width_file_with_R")
 
 #fetching the values from the fwf dataset, skipping the column headers and mentioning the size using the column sizes 
 df_weather_data <- read.fwf(path_for_data, c(6, 5, 3, 3, 4, 3, 5, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3), header = F, skip=33 , n=2455)

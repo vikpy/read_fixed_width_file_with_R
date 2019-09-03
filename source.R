@@ -65,6 +65,15 @@ if( length(df_weather_data_1730[,1]) + length(df_weather_data_830[,1]) ==  lengt
   
 }
 
+#Formatting the values as per the source format and giving the original column names
+#Formating MWS to one decimal place
+df_weather_data_830["MWS"] <-  round(df_weather_data_830["MWS"], 1)
+df_weather_data_830[, !names(df_weather_data_830)%in% c("MWS")] <-  round(df_weather_data_830[, !names(df_weather_data_830)%in% c("MWS")])
+df_weather_data_830
+df_weather_data_1730["MWS"] <-  round(df_weather_data_1730["MWS"], 1)
+df_weather_data_1730[, !names(df_weather_data_1730)%in% c("MWS")] <-  round(df_weather_data_1730[, !names(df_weather_data_830)%in% c("MWS")])
+df_weather_data_1730
+
 #Writing the data in csv
 write.fwf(df_weather_data_1730, file = "./weather_data_1730.txt")
 write.fwf(df_weather_data_830, file = "./weather_data_830.txt")
